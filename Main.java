@@ -1,25 +1,41 @@
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
-        /********** Begin **********/
-        // 创建一个Date对象，通过输入的毫秒值作为构造方法的实参
-        Scanner scanner = new Scanner(System.in);
-        long milliseconds = scanner.nextLong();
-        Date date = new Date(milliseconds);
+        int switch_num = 1;
+        try(Scanner sc = new Scanner(System.in)){
+            System.out.println("欢迎使用学生评分管理系统！");
+            System.out.println("以下为选项菜单：");
+            
+            while(switch_num != 0){
+                System.out.println("========================");
+                System.out.println("【1】读取数据库数据");
+                System.out.println("【2】改变数据库数据");
+                System.out.println("【0】退出系统");
+                System.out.println("========================");
+                System.out.print("请输入你的选项：");
 
-        // 创建一个DateFormat对象，设置日期格式为yyyy-MM-dd HH:mm:ss
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                switch_num = sc.nextInt();
+                sc.nextLine();
 
-        // 使用DateFormat对象的format()方法将Date对象格式化成指定的日期字符串
-        String formattedDate = dateFormat.format(date);
-
-        // 将格式化后的日期字符串输出到控制台
-        System.out.println(formattedDate);
-
-        /********** End **********/
+                switch(switch_num){
+                    case 1 ->{
+                        DatabaseReader.list(sc);
+                    }
+                    case 2 ->{
+                        DatabaseModifierMenu.Menu(sc);
+                    }
+                    case 0 ->{
+                        System.out.println("感谢您使用本系统，下次再见！");
+                        System.exit(0);
+                    }
+                }
+            }
+        }catch(InputMismatchException e){
+            System.err.println("输入格式错误！");
+        }
     }
 }
