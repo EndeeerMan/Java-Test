@@ -98,7 +98,8 @@ public class DatabaseReader {
                     String target_row = sc.next();
                     System.out.print("请输入目标科目编号：");
                     String subject_num = sc.next();
-                    boolean flag = false;
+                    boolean student_found = false;
+                    boolean subject_found = false;
 
                     while((line = fread.readLine()) != null){
                         int counter = 1;
@@ -109,25 +110,30 @@ public class DatabaseReader {
                             if(counter == 1 && buf.equals(target_row) == false){
                                 break;
                             }
-                            if(counter == 1)System.out.print("当前学生的 学号 姓名 评分：" + buf + " ");
+                            if(counter == 1) {
+                                System.out.print("当前学生的 学号 姓名 评分：" + buf + " ");
+                                student_found = true;
+                            }
                             if(counter == 2) System.out.print(buf + " ");
                             if(counter == 3) System.out.println(buf);
                             if(counter == 4) System.out.println("该条数据最后一次修改时间：" + buf);
                             if(counter == 5) System.out.println("以下是该学生学科学分以及完成比例：");
                             if(counter > 4 && counter % 3 == 2 && buf.equals(subject_num)){
                                 System.out.print("学科 " + buf + " ：");
-                                flag = true;
+                                subject_found = true;
                             }
-                            if(counter > 4 && counter % 3 == 0 && flag == true) System.out.print(buf + " ");
-                            if(counter > 4 && counter % 3 == 1 && flag == true){
+                            if(counter > 4 && counter % 3 == 0 && subject_found == true) System.out.print(buf + " ");
+                            if(counter > 4 && counter % 3 == 1 && subject_found == true){
                                 System.out.println(buf);
                                 break;
                             }
                             counter++;
                         } 
                     }
-                    if(flag == false){
+                    if(!student_found){
                         System.out.println("学号不存在或数据不完整！");
+                    } else if(!subject_found) {
+                        System.out.println("该学生没有此科目！");
                     }
                     break;
                 }

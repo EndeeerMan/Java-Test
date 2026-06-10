@@ -7,12 +7,22 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.InputMismatchException;
+import java.io.File;
 
 public class Password {  
     public static void Set(){
-        try(BufferedReader fread = new BufferedReader(new FileReader(".\\password"))){
-            String old_MD5_pwd = fread.readLine();
-
+        String old_MD5_pwd = null;
+        File pwdFile = new File(".\\password");
+        if (pwdFile.exists()) {
+            try(BufferedReader fread = new BufferedReader(new FileReader(pwdFile))){
+                old_MD5_pwd = fread.readLine();
+            }catch(IOException e){
+                System.err.println("密码文件读取错误！");
+                return;
+            }
+        }
+        
+        try {
             if(old_MD5_pwd != null){
                 System.out.print("请输入旧密码：");
                 String old_pwd = PublicScanner.sc.nextLine();
@@ -41,8 +51,6 @@ public class Password {
             Write_Password.Write(new_pwd);
             System.out.println("密码设置完成！");
             
-        }catch(IOException e){
-            System.err.println("密码文件读写错误！");
         }catch(InputMismatchException e){
             System.err.println("输入格式错误！");
         }catch(Exception e){
@@ -51,18 +59,54 @@ public class Password {
     }
 
     public static boolean Verify(){
-        try(BufferedReader fread = new BufferedReader(new FileReader(".\\password"))){
-            String old_MD5_pwd = fread.readLine();
-            if(old_MD5_pwd == null){
-                Password.Set();
-                return true;
+        String old_MD5_pwd = null;
+        File pwdFile = new File(".\\password");
+        if (pwdFile.exists()) {
+            try(BufferedReader fread = new BufferedReader(new FileReader(pwdFile))){
+                old_MD5_pwd = fread.readLine();
+            }catch(IOException e){
+                throw new IllegalStateException("密码文件读写错误！",e);
             }
-            
-            System.out.print("请输入密码：");
-            String pwd = PublicScanner.sc.nextLine();
-            return Validate_pwd.Verify(pwd, old_MD5_pwd);
-        }catch(IOException e){
-            throw new IllegalStateException("密码文件读写错误！",e);
+        }
+
+        if(old_MD5_pwd == null){
+            Password.Set();
+            return new File(".\\password").exists();
+        }
+        
+        System.out.print("请输入密码：");
+        String pwd = PublicScanner.sc.nextLine();
+        return Validate_pwd.Verify(pwd, old_MD5_pwd);
+    }
+
+    public static void del(){
+        String old_MD5_pwd = null;
+        File pwdFile = new File(".\\password");
+        if (pwdFile.exists()) {
+            try(BufferedReader fread = new BufferedReader(new FileReader(pwdFile))){
+                old_MD5_pwd = fread.readLine();
+            }catch(IOException e){
+                System.err.println("密码文件读取错误！");
+                return;
+            }
+        }
+
+        if (old_MD5_pwd == null) {
+            System.out.println("没有设置密码，无需删除！");
+            return;
+        }
+
+        System.out.print("请输入旧密码以确认删除：");
+        String old_pwd = PublicScanner.sc.nextLine();
+        
+        if (Validate_pwd.Verify(old_pwd, old_MD5_pwd)) {
+            if (pwdFile.delete()) {
+                System.out.println("密码删除成功！");
+            } else {
+                System.out.println("密码删除失败！");
+            }
+        } else {
+            System.out.println("旧密码输入错误，删除失败！");
         }
     }
 }

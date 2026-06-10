@@ -19,6 +19,7 @@ public class GuestMenu {
 
                 switch(switch_num){
                     case 1 ->{
+                        PublicScanner.clearScreen();
                         DatabaseReader.list(PublicScanner.sc);
                     }
                     case 0 ->{

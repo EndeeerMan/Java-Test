@@ -20,10 +20,12 @@ public class Main {
 
                 switch(switch_num){
                     case 1 ->{
+                        PublicScanner.clearScreen();
                         GuestMenu.Menu();
                     }
                     case 2 ->{
                         if(Password.Verify()){
+                            PublicScanner.clearScreen();
                             AdminMenu.Menu();
                         }else{
                             System.out.println("密码是错误的！");
