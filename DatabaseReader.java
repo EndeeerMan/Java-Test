@@ -113,7 +113,7 @@ public class DatabaseReader {
                             if(counter == 2) System.out.print(buf + " ");
                             if(counter == 3) System.out.println(buf);
                             if(counter == 4) System.out.println("该条数据最后一次修改时间：" + buf);
-                            if(counter == 5) System.out.println("以下是该学生每个学科学分以及完成比例：");
+                            if(counter == 5) System.out.println("以下是该学生学科学分以及完成比例：");
                             if(counter > 4 && counter % 3 == 2 && buf.equals(subject_num)){
                                 System.out.print("学科 " + buf + " ：");
                                 flag = true;

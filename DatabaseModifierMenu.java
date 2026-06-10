@@ -7,6 +7,15 @@ public class DatabaseModifierMenu {
     }
 
     public static void Menu(Scanner sc){
+            System.out.println("========================");
+            System.out.println("【1】增加一个学生");
+            System.out.println("【2】增加指定学生的科目");
+            System.out.println("【3】删除指定学生");
+            System.out.println("【4】删除指定学生的指定科目");
+            System.out.println("【5】修改指定学生的指定科目");
+            System.out.println("【6】修改指定学生的基本信息");
+            System.out.println("========================");
+            System.out.print("请输入你的选项：");
         try{
             int switch_num = sc.nextInt();
             sc.nextLine();

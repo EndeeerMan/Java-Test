@@ -1,6 +1,5 @@
 import java.util.InputMismatchException;
 
-
 public class AdminMenu {
     public static void Menu() {
         int switch_num = 1;
@@ -12,6 +11,7 @@ public class AdminMenu {
                 System.out.println("========================");
                 System.out.println("【1】读取数据库数据");
                 System.out.println("【2】改变数据库数据");
+                System.out.println("【3】修改管理员密码");
                 System.out.println("【0】退出管理员状态");
                 System.out.println("========================");
                 System.out.print("请输入你的选项：");
@@ -25,6 +25,9 @@ public class AdminMenu {
                     }
                     case 2 ->{
                         DatabaseModifierMenu.Menu(PublicScanner.sc);
+                    }
+                    case 3 ->{
+                        Password.Set();
                     }
                     case 0 ->{
                         System.out.println("退出管理员状态！");
