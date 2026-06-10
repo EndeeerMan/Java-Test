@@ -4,6 +4,7 @@ public class InputDataCheck {
 	private static final String STUDENT_NAME_PATTERN = "[\\p{L}\\p{N} _·-]+";
 	private static final String CREDIT_PATTERN = "\\d+(\\.\\d+)?";
 	private static final String ACHIEVEMENT_PATTERN = "\\d+\\.\\d{1,4}";
+	private static final String PASSWORD_PATTERN = "^[\\x00-\\x7F]+$";
 
 	public static boolean isStudentId(String input) {
 		return input != null && input.trim().matches(STUDENT_ID_PATTERN);
@@ -33,5 +34,9 @@ public class InputDataCheck {
 
 		double credit = Double.parseDouble(input.trim());
 		return credit >= 0;
+	}
+
+	public static boolean isPassword(String pwd){
+		return pwd != null && pwd.trim().matches(PASSWORD_PATTERN);
 	}
 }

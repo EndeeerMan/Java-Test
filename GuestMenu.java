@@ -1,17 +1,16 @@
 import java.util.InputMismatchException;
 
-public class Main {
-    public static void main(String[] args) {
+public class GuestMenu {
+    public static void Menu() {
+        int switch_num = 1;
         try{
-            int switch_num = 1;
-            System.out.println("欢迎使用学生评分管理系统！");
+            System.out.println("欢迎使用学生评分管理系统！（访客查询菜单）");
             System.out.println("以下为选项菜单：");
-
+            
             while(switch_num != 0){
                 System.out.println("========================");
-                System.out.println("【1】进入访客菜单");
-                System.out.println("【2】进入管理员菜单");
-                System.out.println("【0】退出系统");
+                System.out.println("【1】读取数据库数据");
+                System.out.println("【0】退出访客状态");
                 System.out.println("========================");
                 System.out.print("请输入你的选项：");
 
@@ -20,17 +19,10 @@ public class Main {
 
                 switch(switch_num){
                     case 1 ->{
-                        GuestMenu.Menu();
-                    }
-                    case 2 ->{
-                        if(Password.Verify()){
-                            AdminMenu.Menu();
-                        }else{
-                            System.out.println("密码是错误的！");
-                        }
+                        DatabaseReader.list(PublicScanner.sc);
                     }
                     case 0 ->{
-                        System.out.println("再见！");
+                        System.out.println("退出访客状态！");
                         return;
                     }
                     default ->{

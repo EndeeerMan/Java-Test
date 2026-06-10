@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class DatabaseModifierMenu {
     public static void Menu(){
-        Menu(new Scanner(System.in));
+        Menu(PublicScanner.sc);
     }
 
     public static void Menu(Scanner sc){

@@ -16,7 +16,7 @@ public class DatabaseModifier {
     private static final int SUBJECT_FIELD_COUNT = 3;   //单科目数据所占数量
 
     public static void add_one_stu(){  //增加一个学生
-        add_one_stu(new Scanner(System.in));
+        add_one_stu(PublicScanner.sc);
     }
 
     public static void add_one_stu(Scanner sc){  //增加一个学生
@@ -78,7 +78,7 @@ public class DatabaseModifier {
     }
 
     public static void add_one_subject(){  //增加一个学生的一个科目学分与科目达成率
-        add_one_subject(new Scanner(System.in));
+        add_one_subject(PublicScanner.sc);
     }
 
     public static void add_one_subject(Scanner sc){  //增加一个学生的一个科目学分与科目达成率
@@ -123,7 +123,7 @@ public class DatabaseModifier {
     }
 
     public static void del_a_student(){    //删除一个学生
-        del_a_student(new Scanner(System.in));
+        del_a_student(PublicScanner.sc);
     }
 
     public static void del_a_student(Scanner sc){    //删除一个学生
@@ -145,7 +145,7 @@ public class DatabaseModifier {
     }
 
     public static void del_a_subject(){    //删除一个学生的一个科目
-        del_a_subject(new Scanner(System.in));
+        del_a_subject(PublicScanner.sc);
     }
 
     public static void del_a_subject(Scanner sc){    //删除一个学生的一个科目
@@ -192,7 +192,7 @@ public class DatabaseModifier {
     }
 
     public static void modify_a_subject(){ //修改学生的一个科目
-        modify_a_subject(new Scanner(System.in));
+        modify_a_subject(PublicScanner.sc);
     }
 
     public static void modify_a_subject(Scanner sc){ //修改学生的一个科目
@@ -269,7 +269,7 @@ public class DatabaseModifier {
     }
 
     public static void modify_a_student(){ //修改学生信息
-        modify_a_student(new Scanner(System.in));
+        modify_a_student(PublicScanner.sc);
     }
 
     public static void modify_a_student(Scanner sc){ //修改学生信息
