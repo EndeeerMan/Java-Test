@@ -1,4 +1,5 @@
 public class InputDataCheck {
+	//正则表达式，匹配数据格式
 	private static final String STUDENT_ID_PATTERN = "\\d{10}";
 	private static final String SUBJECT_ID_PATTERN = "\\d{3}";
 	private static final String STUDENT_NAME_PATTERN = "[\\p{L}\\p{N} _·-]+";

@@ -1,4 +1,4 @@
-public class RatingCalc {
+public class RatingCalc {   //学生评分算法
     public static int calc(double level, double achievement) {
         // 达成率只计算不高于100.5000%的部分
         double calcAchievement = Math.min(achievement, 100.5000);

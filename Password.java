@@ -8,7 +8,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.InputMismatchException;
 
-
 public class Password {  
     public static void Set(){
         try(BufferedReader fread = new BufferedReader(new FileReader(".\\password"))){
