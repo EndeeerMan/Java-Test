@@ -3,6 +3,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.nio.charset.StandardCharsets;
+
 
 public class DatabaseReader {
     public static void list(){
@@ -10,7 +12,7 @@ public class DatabaseReader {
     }
 
     public static void list(Scanner sc){
-        try(BufferedReader fread = new BufferedReader(new FileReader(".\\database_store\\database.csv"))){
+        try(BufferedReader fread = new BufferedReader(new FileReader(".\\database_store\\database.csv",StandardCharset.UTF_8))){
             String line;
 
             System.out.println("==========================");
