@@ -1,9 +1,9 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.nio.charset.StandardCharsets;
 
 
 public class DatabaseReader {
@@ -23,23 +23,25 @@ public class DatabaseReader {
             System.out.println("==========================");
             System.out.print("请输入选项：");
 
-            int detailed_info_switch = sc.nextInt();
+            int detailedInfoSwitch = sc.nextInt();
             sc.nextLine();
 
-            switch (detailed_info_switch) {
+            switch (detailedInfoSwitch) {
                 case 1 -> {
                     System.out.print("请输入你需要查询的学生的学号：");
-                    String target_row = sc.next();
+                    String targetRow = sc.next();
 
                     boolean flag = false;
+
+                    PublicScanner.clearScreen();
 
                     while((line = fread.readLine()) != null){
                         int counter = 1;
                         
-                        String[] line_data = line.split(",");
+                        String[] lineData = line.split(",");
                         
-                        for(String buf : line_data){
-                            if(counter == 1 && buf.equals(target_row) == false){
+                        for(String buf : lineData){
+                            if(counter == 1 && !buf.equals(targetRow)){
                                 break;
                             }
                             if(counter == 1) System.out.print("当前学生的 学号 姓名 评分：" + buf + " ");
@@ -53,7 +55,7 @@ public class DatabaseReader {
                             counter++;
                         }
                     }
-                    if(flag == false){
+                    if(!flag){
                         System.out.println("学号不存在或数据不完整！");
                     }
                     break;
@@ -61,15 +63,18 @@ public class DatabaseReader {
 
                 case 2 -> {
                     System.out.print("请输入你需要查询的学生的学号：");
-                    String target_row = sc.next();
+                    String targetRow = sc.next();
                     boolean flag = false;
+
+                    PublicScanner.clearScreen();
+                    
                     while((line = fread.readLine()) != null){
                         int counter = 1;
                         
-                        String[] line_data = line.split(",");
+                        String[] lineData = line.split(",");
 
-                        for(String buf : line_data){
-                            if(counter == 1 && buf.equals(target_row) == false){
+                        for(String buf : lineData){
+                            if(counter == 1 && !buf.equals(targetRow)){
                                 break;
                             }
                             if(counter == 1)System.out.print("当前学生的 学号 姓名 评分：" + buf + " ");
@@ -89,7 +94,7 @@ public class DatabaseReader {
                             counter++;
                         }
                     }
-                    if(flag == false){
+                    if(!flag){
                         System.out.println("学号不存在或数据不完整！");
                     }
                     break;
@@ -97,57 +102,63 @@ public class DatabaseReader {
                 
                 case 3 -> {
                     System.out.print("请输入你需要查询的学生的学号：");
-                    String target_row = sc.next();
+                    String targetRow = sc.next();
                     System.out.print("请输入目标科目编号：");
-                    String subject_num = sc.next();
-                    boolean student_found = false;
-                    boolean subject_found = false;
+                    String subjectNum = sc.next();
+                    if(InputDataCheck.isSubjectId(subjectNum)) {
+                        subjectNum = "00000".substring(subjectNum.length()) + subjectNum;
+                    }
+                    boolean studentFound = false;
+                    boolean subjectFound = false;
+
+                    PublicScanner.clearScreen();
 
                     while((line = fread.readLine()) != null){
                         int counter = 1;
                         
-                        String[] line_data = line.split(",");
+                        String[] lineData = line.split(",");
                         
-                        for(String buf : line_data){
-                            if(counter == 1 && buf.equals(target_row) == false){
+                        for(String buf : lineData){
+                            if(counter == 1 && !buf.equals(targetRow)){
                                 break;
                             }
                             if(counter == 1) {
                                 System.out.print("当前学生的 学号 姓名 评分：" + buf + " ");
-                                student_found = true;
+                                studentFound = true;
                             }
                             if(counter == 2) System.out.print(buf + " ");
                             if(counter == 3) System.out.println(buf);
                             if(counter == 4) System.out.println("该条数据最后一次修改时间：" + buf);
                             if(counter == 5) System.out.println("以下是该学生学科学分以及完成比例：");
-                            if(counter > 4 && counter % 3 == 2 && buf.equals(subject_num)){
+                            if(counter > 4 && counter % 3 == 2 && buf.equals(subjectNum)){
                                 System.out.print("学科 " + buf + " ：");
-                                subject_found = true;
+                                subjectFound = true;
                             }
-                            if(counter > 4 && counter % 3 == 0 && subject_found == true) System.out.print(buf + " ");
-                            if(counter > 4 && counter % 3 == 1 && subject_found == true){
+                            if(counter > 4 && counter % 3 == 0 && subjectFound) System.out.print(buf + " ");
+                            if(counter > 4 && counter % 3 == 1 && subjectFound){
                                 System.out.println(buf);
                                 break;
                             }
                             counter++;
                         } 
                     }
-                    if(!student_found){
+                    if(!studentFound){
                         System.out.println("学号不存在或数据不完整！");
-                    } else if(!subject_found) {
+                    } else if(!subjectFound) {
                         System.out.println("该学生没有此科目！");
                     }
                     break;
                 }
 
                 case 4 ->{
+                    PublicScanner.clearScreen();
                     System.out.println("所有学生的 学号 姓名 评分 最后一次修改时间 如下：");
                     while((line = fread.readLine()) != null){
                         int counter = 1;
                         
-                        String[] line_data = line.split(",");
+                        String[] lineData = line.split(",");
 
-                        for(String buf : line_data){
+                        for(String buf : lineData){
                             if(counter == 1) System.out.print(buf + "\t\t");
                             if(counter == 2) System.out.print(buf + "\t\t");
                             if(counter == 3) System.out.print(buf + "\t\t");
@@ -160,7 +171,10 @@ public class DatabaseReader {
                     }
                     break;
                 }
-                default -> System.out.println("没有此选项！");
+                default -> {
+                    PublicScanner.clearScreen();
+                    System.out.println("没有此选项！");
+                }
             }
         }catch(IOException e) {
             System.err.println("文件读写错误！");

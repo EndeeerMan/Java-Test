@@ -15,11 +15,11 @@ public class DatabaseModifier {
     private static final int BASE_FIELD_COUNT = 4;  //学生基本数据所占数量
     private static final int SUBJECT_FIELD_COUNT = 3;   //单科目数据所占数量
 
-    public static void add_one_stu(){  //增加一个学生
-        add_one_stu(PublicScanner.sc);
+    public static void addOneStu(){  //增加一个学生
+        addOneStu(PublicScanner.sc);
     }
 
-    public static void add_one_stu(Scanner sc){  //增加一个学生
+    public static void addOneStu(Scanner sc){  //增加一个学生
         try {
             List<String[]> rows = readRows();
 
@@ -77,11 +77,11 @@ public class DatabaseModifier {
         }
     }
 
-    public static void add_one_subject(){  //增加一个学生的一个科目学分与科目达成率
-        add_one_subject(PublicScanner.sc);
+    public static void addOneSubject(){  //增加一个学生的一个科目学分与科目达成率
+        addOneSubject(PublicScanner.sc);
     }
 
-    public static void add_one_subject(Scanner sc){  //增加一个学生的一个科目学分与科目达成率
+    public static void addOneSubject(Scanner sc){  //增加一个学生的一个科目学分与科目达成率
         try {
             List<String[]> rows = readRows();
             int rowIndex = askStudentIndex(sc, rows);
@@ -122,11 +122,11 @@ public class DatabaseModifier {
         }
     }
 
-    public static void del_a_student(){    //删除一个学生
-        del_a_student(PublicScanner.sc);
+    public static void delAStudent(){    //删除一个学生
+        delAStudent(PublicScanner.sc);
     }
 
-    public static void del_a_student(Scanner sc){    //删除一个学生
+    public static void delAStudent(Scanner sc){    //删除一个学生
         try {
             List<String[]> rows = readRows();
             int rowIndex = askStudentIndex(sc, rows);
@@ -144,11 +144,11 @@ public class DatabaseModifier {
         }
     }
 
-    public static void del_a_subject(){    //删除一个学生的一个科目
-        del_a_subject(PublicScanner.sc);
+    public static void delASubject(){    //删除一个学生的一个科目
+        delASubject(PublicScanner.sc);
     }
 
-    public static void del_a_subject(Scanner sc){    //删除一个学生的一个科目
+    public static void delASubject(Scanner sc){    //删除一个学生的一个科目
         try {
             List<String[]> rows = readRows();
             int rowIndex = askStudentIndex(sc, rows);
@@ -191,11 +191,11 @@ public class DatabaseModifier {
         }
     }
 
-    public static void modify_a_subject(){ //修改学生的一个科目
-        modify_a_subject(PublicScanner.sc);
+    public static void modifyASubject(){ //修改学生的一个科目
+        modifyASubject(PublicScanner.sc);
     }
 
-    public static void modify_a_subject(Scanner sc){ //修改学生的一个科目
+    public static void modifyASubject(Scanner sc){ //修改学生的一个科目
         try {
             List<String[]> rows = readRows();
             int rowIndex = askStudentIndex(sc, rows);
@@ -223,9 +223,10 @@ public class DatabaseModifier {
             String newSubjectId = readOptionalLine(sc);
             if (!newSubjectId.isEmpty()) {
                 if (!InputDataCheck.isSubjectId(newSubjectId)) {
-                    System.out.println("科目编号必须是3位数字，可以0开头！");
+                    System.out.println("科目编号必须是最多5位数字，可以0开头！");
                     return;
                 }
+                newSubjectId = "00000".substring(newSubjectId.length()) + newSubjectId;
                 int sameSubjectIndex = findSubjectDataIndex(row, newSubjectId);
                 if (!newSubjectId.equals(row[dataIndex]) && sameSubjectIndex != -1) {
                     System.out.println("该学生已存在这个科目编号！");
@@ -268,11 +269,11 @@ public class DatabaseModifier {
         }
     }
 
-    public static void modify_a_student(){ //修改学生信息
-        modify_a_student(PublicScanner.sc);
+    public static void modifyAStudent(){ //修改学生信息
+        modifyAStudent(PublicScanner.sc);
     }
 
-    public static void modify_a_student(Scanner sc){ //修改学生信息
+    public static void modifyAStudent(Scanner sc){ //修改学生信息
         try {
             List<String[]> rows = readRows();
             int rowIndex = askStudentIndex(sc, rows);
@@ -453,9 +454,9 @@ public class DatabaseModifier {
         while (true) {
             String input = readRequiredLine(sc);
             if (InputDataCheck.isSubjectId(input)) {
-                return input;
+                return "00000".substring(input.length()) + input;
             }
-            System.out.print("科目编号必须是3位数字，可以0开头，请重新输入：");
+            System.out.print("科目编号必须是最多5位数字，可以0开头，请重新输入：");
         }
     }
 

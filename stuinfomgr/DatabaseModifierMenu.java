@@ -2,11 +2,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DatabaseModifierMenu {
-    public static void Menu(){
-        Menu(PublicScanner.sc);
+    public static void menu(){
+        menu(PublicScanner.sc);
     }
 
-    public static void Menu(Scanner sc){
+    public static void menu(Scanner sc){
             System.out.println("========================");
             System.out.println("【1】增加一个学生");
             System.out.println("【2】增加指定学生的科目");
@@ -17,28 +17,35 @@ public class DatabaseModifierMenu {
             System.out.println("========================");
             System.out.print("请输入你的选项：");
         try{
-            int switch_num = sc.nextInt();
+            int switchNum = sc.nextInt();
             sc.nextLine();
-            switch(switch_num){
+            switch(switchNum){
                 case 1 -> {
-                    DatabaseModifier.add_one_stu(sc);
+                    PublicScanner.clearScreen();
+                    DatabaseModifier.addOneStu(sc);
                 }
                 case 2 -> {
-                    DatabaseModifier.add_one_subject(sc);
+                    PublicScanner.clearScreen();
+                    DatabaseModifier.addOneSubject(sc);
                 }
                 case 3 -> {
-                    DatabaseModifier.del_a_student(sc);
+                    PublicScanner.clearScreen();
+                    DatabaseModifier.delAStudent(sc);
                 }
                 case 4 -> {
-                    DatabaseModifier.del_a_subject(sc);
+                    PublicScanner.clearScreen();
+                    DatabaseModifier.delASubject(sc);
                 }
                 case 5 -> {
-                    DatabaseModifier.modify_a_subject(sc);
+                    PublicScanner.clearScreen();
+                    DatabaseModifier.modifyASubject(sc);
                 }
                 case 6 -> {
-                    DatabaseModifier.modify_a_student(sc);
+                    PublicScanner.clearScreen();
+                    DatabaseModifier.modifyAStudent(sc);
                 }
                 default -> {
+                    PublicScanner.clearScreen();
                     System.out.println("输入选项错误！");
                 }
             }

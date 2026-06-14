@@ -1,7 +1,7 @@
 public class InputDataCheck {
 	//正则表达式，匹配数据格式
 	private static final String STUDENT_ID_PATTERN = "\\d{10}";
-	private static final String SUBJECT_ID_PATTERN = "\\d{3}";
+	private static final String SUBJECT_ID_PATTERN = "\\d{1,5}";
 	private static final String STUDENT_NAME_PATTERN = "[\\p{L}\\p{N} _·-]+";
 	private static final String CREDIT_PATTERN = "\\d+(\\.\\d+)?";
 	private static final String ACHIEVEMENT_PATTERN = "\\d+\\.\\d{1,4}";

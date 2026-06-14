@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class PublicScanner {
@@ -12,7 +13,7 @@ public class PublicScanner {
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
             }
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             for (int i = 0; i < 50; i++) {
                 System.out.println();
             }

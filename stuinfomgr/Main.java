@@ -3,11 +3,11 @@ import java.util.InputMismatchException;
 public class Main {
     public static void main(String[] args) {
         try{
-            int switch_num = 1;
+            int switchNum = 1;
             System.out.println("欢迎使用学生评分管理系统！");
             System.out.println("以下为选项菜单：");
 
-            while(switch_num != 0){
+            while(switchNum != 0){
                 System.out.println("========================");
                 System.out.println("【1】进入访客菜单");
                 System.out.println("【2】进入管理员菜单");
@@ -15,18 +15,18 @@ public class Main {
                 System.out.println("========================");
                 System.out.print("请输入你的选项：");
 
-                switch_num = PublicScanner.sc.nextInt();
+                switchNum = PublicScanner.sc.nextInt();
                 PublicScanner.sc.nextLine();
 
-                switch(switch_num){
+                switch(switchNum){
                     case 1 ->{
                         PublicScanner.clearScreen();
-                        GuestMenu.Menu();
+                        GuestMenu.menu();
                     }
                     case 2 ->{
-                        if(Password.Verify()){
+                        if(Password.verify()){
                             PublicScanner.clearScreen();
-                            AdminMenu.Menu();
+                            AdminMenu.menu();
                         }else{
                             System.out.println("密码是错误的！");
                         }
