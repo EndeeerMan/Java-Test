@@ -122,7 +122,7 @@ class WritePassword{
 }
 
 class ValidatePwd{
-    public static boolean verify(String pwd, String storedPwd){
+    public static boolean verify(String pwd, String storedPwd){ //验证输入的密码散列计算后是否和存储的散列一致
         if(pwd == null || storedPwd == null){
             return false;
         }
@@ -131,7 +131,7 @@ class ValidatePwd{
 }
 
 class Encrypt{
-    private static final String SALT = "LoveUniKawaiihappychunithm10thanniversary"; //一般的MD5散列安全性弱，加盐可大幅增加安全性。
+    private static final String SALT = "LoveUniKawaiihappychunithm10thanniversary"; //一般的SHA-256散列安全性弱，加盐可大幅增加安全性。
     private static final String CURRENT_PREFIX = "SHA256_CHAR_SALT_V1:";
 
     public static String compute(String pwd){
@@ -163,7 +163,7 @@ class Encrypt{
         return saltedPwd.toString();
     }
 
-    private static String digest(String algorithm, String data) {
+    private static String digest(String algorithm, String data) {   //使用指定算法把输入数据进行计算
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
             byte[] messageDigest = md.digest(data.getBytes(StandardCharsets.UTF_8));

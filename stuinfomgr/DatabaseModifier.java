@@ -182,7 +182,7 @@ public class DatabaseModifier {
             }
 
             List<String> newRow = new ArrayList<>(List.of(row));
-            newRow.remove(dataIndex);
+            newRow.remove(dataIndex);           //学生的每一个科目都占用3个csv数据，连续删3次同一个位置即可完全删除该科目
             newRow.remove(dataIndex);
             newRow.remove(dataIndex);
 
