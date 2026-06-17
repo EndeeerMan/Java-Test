@@ -10,6 +10,7 @@ public class DatabaseReader {
         list(PublicScanner.sc);
     }
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
     public static void list(Scanner sc){
         try(BufferedReader fread = new BufferedReader(new FileReader(".\\database_store\\database.csv",StandardCharsets.UTF_8))){
             String line;

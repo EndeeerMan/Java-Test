@@ -5,6 +5,7 @@ public class DatabaseModifierMenu {
         menu(PublicScanner.sc);
     }
 
+    @SuppressWarnings("UnnecessaryReturnStatement")
     public static void menu(Scanner sc){
             System.out.println("========================");
             System.out.println("【1】增加一个学生");
