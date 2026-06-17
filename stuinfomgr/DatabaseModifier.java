@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 
 public class DatabaseModifier {
     private static final Path DATABASE_PATH = Path.of(".\\database_store\\database.csv");
+    private static final Path TEMP_DATABASE_PATH = Path.of(".\\database_store\\temp_database.csv");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
     private static final int BASE_FIELD_COUNT = 4;  //学生基本数据所占数量
     private static final int SUBJECT_FIELD_COUNT = 3;   //单科目数据所占数量
@@ -47,7 +50,7 @@ public class DatabaseModifier {
             row.add(currentTime());
 
             for (int index = 1; index <= subjectCount; index++) {
-                System.out.print("请输入第 " + index + " 个科目的编号：");
+                System.out.print("请输入第 " + index + " 个科目的编号（1-5位数字，将自动补足为5位）：");
                 String subjectId = readSubjectId(sc);
                 if (findSubjectDataIndex(row, subjectId) != -1) {
                     System.out.println("该学生已存在这个科目编号！");
@@ -70,6 +73,8 @@ public class DatabaseModifier {
             System.out.println("学生添加成功！");
         } catch (NumberFormatException e) {
             System.err.println("输入数据格式有误！");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         } catch (IOException e) {
             System.err.println("文件读写错误！");
         } catch (Exception e) {
@@ -92,7 +97,7 @@ public class DatabaseModifier {
             String[] row = rows.get(rowIndex);
             List<String> newRow = new ArrayList<>(List.of(row));
 
-            System.out.print("请输入新增科目的编号：");
+            System.out.print("请输入新增科目的编号（1-5位数字，将自动补足为5位）：");
             String subjectId = readSubjectId(sc);
             if (findSubjectDataIndex(row, subjectId) != -1) {
                 System.out.println("该学生已存在这个科目编号！");
@@ -115,6 +120,8 @@ public class DatabaseModifier {
             System.out.println("科目添加成功！");
         } catch (NumberFormatException e) {
             System.err.println("输入数据格式有误！");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         } catch (IOException e) {
             System.err.println("文件读写错误！");
         } catch (Exception e) {
@@ -139,6 +146,8 @@ public class DatabaseModifier {
             System.out.println("学生删除成功！");
         } catch (IOException e) {
             System.err.println("文件读写错误！");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         } catch (Exception e) {
             System.err.println("其他错误！");
         }
@@ -184,6 +193,8 @@ public class DatabaseModifier {
             System.out.println("科目删除成功！");
         } catch (NumberFormatException e) {
             System.err.println("输入数据格式有误！");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         } catch (IOException e) {
             System.err.println("文件读写错误！");
         } catch (Exception e) {
@@ -219,14 +230,14 @@ public class DatabaseModifier {
                 return;
             }
 
-            System.out.print("请输入新的科目编号（直接回车则不修改）：");
+            System.out.print("请输入新的科目编号（1-5位数字，将自动补足为5位，直接回车则不修改）：");
             String newSubjectId = readOptionalLine(sc);
             if (!newSubjectId.isEmpty()) {
-                if (!InputDataCheck.isSubjectId(newSubjectId)) {
-                    System.out.println("科目编号必须是最多5位数字，可以0开头！");
+                newSubjectId = InputDataCheck.formatSubjectId(newSubjectId);
+                if (newSubjectId == null) {
+                    System.out.println("科目编号必须是不超过5位的数字！");
                     return;
                 }
-                newSubjectId = "00000".substring(newSubjectId.length()) + newSubjectId;
                 int sameSubjectIndex = findSubjectDataIndex(row, newSubjectId);
                 if (!newSubjectId.equals(row[dataIndex]) && sameSubjectIndex != -1) {
                     System.out.println("该学生已存在这个科目编号！");
@@ -262,6 +273,8 @@ public class DatabaseModifier {
             System.out.println("科目修改成功！");
         } catch (NumberFormatException e) {
             System.err.println("输入数据格式有误！");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         } catch (IOException e) {
             System.err.println("文件读写错误！");
         } catch (Exception e) {
@@ -313,6 +326,8 @@ public class DatabaseModifier {
             System.out.println("学生信息修改成功！");
         } catch (IOException e) {
             System.err.println("文件读写错误！");
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         } catch (Exception e) {
             System.err.println("其他错误！");
         }
@@ -340,9 +355,19 @@ public class DatabaseModifier {
 
         List<String> lines = new ArrayList<>();
         for (String[] row : rows) {
+            for (String field : row) {
+                if (!InputDataCheck.isCsvSafeData(field)) {
+                    throw new IllegalArgumentException("数据不能包含英文逗号！");
+                }
+            }
             lines.add(String.join(",", row));
         }
-        Files.write(DATABASE_PATH, lines, StandardCharsets.UTF_8);
+        Files.write(TEMP_DATABASE_PATH, lines, StandardCharsets.UTF_8);
+        try {
+            Files.move(TEMP_DATABASE_PATH, DATABASE_PATH, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+        } catch (AtomicMoveNotSupportedException e) {
+            Files.move(TEMP_DATABASE_PATH, DATABASE_PATH, StandardCopyOption.REPLACE_EXISTING);
+        }
     }
 
     private static int askStudentIndex(Scanner sc, List<String[]> rows) {
@@ -419,15 +444,26 @@ public class DatabaseModifier {
     private static String readRequiredLine(Scanner sc) {
         while (true) {
             String input = sc.nextLine().trim();
-            if (!input.isEmpty()) {
-                return input;
+            if (input.isEmpty()) {
+                System.out.print("输入不能为空，请重新输入：");
+                continue;
             }
-            System.out.print("输入不能为空，请重新输入：");
+            if (!InputDataCheck.isCsvSafeData(input)) {
+                System.out.print("输入不能包含英文逗号，请重新输入：");
+                continue;
+            }
+            return input;
         }
     }
 
     private static String readOptionalLine(Scanner sc) {
-        return sc.nextLine().trim();
+        while (true) {
+            String input = sc.nextLine().trim();
+            if (InputDataCheck.isCsvSafeData(input)) {
+                return input;
+            }
+            System.out.print("输入不能包含英文逗号，请重新输入（直接回车则不修改）：");
+        }
     }
 
     private static String readStudentId(Scanner sc) {
@@ -453,10 +489,11 @@ public class DatabaseModifier {
     private static String readSubjectId(Scanner sc) {
         while (true) {
             String input = readRequiredLine(sc);
-            if (InputDataCheck.isSubjectId(input)) {
-                return "00000".substring(input.length()) + input;
+            String subjectId = InputDataCheck.formatSubjectId(input);
+            if (subjectId != null) {
+                return subjectId;
             }
-            System.out.print("科目编号必须是最多5位数字，可以0开头，请重新输入：");
+            System.out.print("科目编号必须是不超过5位的数字，请重新输入：");
         }
     }
 

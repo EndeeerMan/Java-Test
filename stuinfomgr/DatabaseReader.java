@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -20,16 +19,21 @@ public class DatabaseReader {
             System.out.println("【2】列出学生所有信息");
             System.out.println("【3】列出学生单个科目信息");
             System.out.println("【4】列出所有学生信息概要");
+            System.out.println("【0】返回上一级菜单");
             System.out.println("==========================");
             System.out.print("请输入选项：");
 
-            int detailedInfoSwitch = sc.nextInt();
-            sc.nextLine();
+            int detailedInfoSwitch = PublicScanner.readInt(sc);
 
             switch (detailedInfoSwitch) {
+                case 0 -> {
+                    PublicScanner.clearScreen();
+                    System.out.println("返回上一级菜单！");
+                    return;
+                }
                 case 1 -> {
                     System.out.print("请输入你需要查询的学生的学号：");
-                    String targetRow = sc.next();
+                    String targetRow = PublicScanner.readRequiredLine(sc);
 
                     boolean flag = false;
 
@@ -63,7 +67,7 @@ public class DatabaseReader {
 
                 case 2 -> {
                     System.out.print("请输入你需要查询的学生的学号：");
-                    String targetRow = sc.next();
+                    String targetRow = PublicScanner.readRequiredLine(sc);
                     boolean flag = false;
 
                     PublicScanner.clearScreen();
@@ -102,11 +106,14 @@ public class DatabaseReader {
                 
                 case 3 -> {
                     System.out.print("请输入你需要查询的学生的学号：");
-                    String targetRow = sc.next();
+                    String targetRow = PublicScanner.readRequiredLine(sc);
                     System.out.print("请输入目标科目编号：");
-                    String subjectNum = sc.next();
-                    if(InputDataCheck.isSubjectId(subjectNum)) {
-                        subjectNum = "00000".substring(subjectNum.length()) + subjectNum;
+                    String subjectNum = PublicScanner.readRequiredLine(sc);
+                    subjectNum = InputDataCheck.formatSubjectId(subjectNum);
+                    if(subjectNum == null) {
+                        PublicScanner.clearScreen();
+                        System.out.println("科目编号必须是不超过5位的数字！");
+                        return;
                     }
                     boolean studentFound = false;
                     boolean subjectFound = false;
@@ -178,8 +185,6 @@ public class DatabaseReader {
             }
         }catch(IOException e) {
             System.err.println("文件读写错误！");
-        }catch(InputMismatchException e){
-            System.err.println("输入数据格式有误！");
         }catch(Exception e){
             System.err.println("其他错误！");
         }

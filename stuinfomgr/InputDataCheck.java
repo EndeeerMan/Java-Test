@@ -8,19 +8,32 @@ public class InputDataCheck {
 	private static final String PASSWORD_PATTERN = "^[\\x00-\\x7F]+$";
 
 	public static boolean isStudentId(String input) {
-		return input != null && input.trim().matches(STUDENT_ID_PATTERN);
+		return isCsvSafeData(input) && input.trim().matches(STUDENT_ID_PATTERN);
 	}
 
 	public static boolean isSubjectId(String input) {
-		return input != null && input.trim().matches(SUBJECT_ID_PATTERN);
+		return isCsvSafeData(input) && input.trim().matches(SUBJECT_ID_PATTERN);
+	}
+
+	public static boolean isCsvSafeData(String input) {
+		return input != null && !input.contains(",");
+	}
+
+	public static String formatSubjectId(String input) {
+		if (!isSubjectId(input)) {
+			return null;
+		}
+
+		String subjectId = input.trim();
+		return "00000".substring(subjectId.length()) + subjectId;
 	}
 
 	public static boolean isStudentName(String input) {
-		return input != null && input.trim().matches(STUDENT_NAME_PATTERN);
+		return isCsvSafeData(input) && input.trim().matches(STUDENT_NAME_PATTERN);
 	}
 
 	public static boolean isAchievement(String input) {
-		if (input == null || !input.trim().matches(ACHIEVEMENT_PATTERN)) {
+		if (!isCsvSafeData(input) || !input.trim().matches(ACHIEVEMENT_PATTERN)) {
 			return false;
 		}
 
@@ -29,7 +42,7 @@ public class InputDataCheck {
 	}
 
 	public static boolean isCredit(String input) {
-		if (input == null || !input.trim().matches(CREDIT_PATTERN)) {
+		if (!isCsvSafeData(input) || !input.trim().matches(CREDIT_PATTERN)) {
 			return false;
 		}
 
