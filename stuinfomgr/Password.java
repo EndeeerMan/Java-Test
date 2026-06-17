@@ -171,7 +171,6 @@ class Encrypt{
             StringBuilder hexString = new StringBuilder();
             
             for(byte buf : messageDigest){
-                //将byte格式化为两位，以确保数据不错位
                 hexString.append(String.format("%02x", buf));
             }
             return hexString.toString();
